@@ -6,7 +6,7 @@ import { RouterView } from 'vue-router'
   <router-view></router-view>
 </template>
 
-<style scoped>
+<style>
 @import 'normalize.css';
 #app {
   /** 字体抗锯齿，让字体看起来更清晰 */

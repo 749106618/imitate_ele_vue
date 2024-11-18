@@ -1,65 +1,36 @@
-# Vue 3 + TypeScript + Vite
+# 仿写饿了么
 
-> Vite、eslint、prettier、husky、commitlint、lint-staged
+## 功能介绍
 
-### 1. 使用Vite脚手架初始化项目
+### 1. css处理
 
-```
-pnpm create vite
-```
-
-### 2. 代码加入`eslint`校验，与`prettier`自动格式化
+> 1.1 引入postcss autoprefixer 自动添加浏览器前缀
+>
+> 1.2 引入postcss-pxtorem 将px单位转换为rem单位
 
 ```
-1.安装 eslint,@eslint/js: ESLint的核心库
-安装 prettier: prettier格式化代码的核心库
-2.npx eslint --init  初始化eslint配置文件
-3.添加自定义规则
+plugins: {
+    'autoprefixer': {
+      overrideBrowserslist: ['Android >= 4.0', 'iOS >= 7'],
+    },
+    'postcss-pxtorem': {
+      // 根节点的 fontSize 值
+      rootValue({ file }) {
+        return file.indexOf('vant') !== -1 ? 37.5 : 75
+      },
+      propList: ['*'],
+      selectorBlackList: [':root'],
+    },
+  },
 ```
 
-### 3. 使用husky、commitlint、lint-staged
+> 1.3 动态设置html的font-size
 
 ```
-1.安装husky: git钩子工具
-2.配置package.json文件添加"prepare": "husky install"
-3.npx husky add .husky/pre-commit "npx lint-staged"
-4.安装lint-staged: git提交代码时，只对暂存区的文件进行校验
-5.
-package.json文件中，添加
-"lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": [
-      "npm run lint",
-      "npm run prettier"
-    ]
-  }
-
-6.安装commitlint/cli: git提交规范
-7.安装@commitlint/config-conventional: commitlint的配置文件，使用规范
-8.在项目根目录下，新建commitlint.config.js文件
-9.npx husky add .husky/commit-msg "npx --no -- commitlint --edit ${1}"
+const rootValue = 37.5
+const rootWidth = 375
+const deviceWidth = document.documentElement.clientWidth
+document.documentElement.style.fontSize = (deviceWidth * rootValue) / rootWidth + 'px'
 ```
 
-### 4. 环境变量和模式
-
-> 开发环境 `dev` .env
-> 预发环境，`pre` .env.staging
-> 生产环境，`pro` .env.production 文件内容如下：
-> VITE_BASE_URL = 'http://yewu-pre.jd.com/api'
-> import.meta.env.VITE_BASE_URL 用于获取环境变量
-> 注意：获取当前模式一般用 process.env.NODE_ENV 执行vite是development，执行vite build是production
-
-### 5. normalize.css
-
-> 安装normalize.css，解决浏览器默认样式不一致问题
-
-### 6. axios
-
-> 安装axios，用于发送网络请求
-
-### 7. vue-router
-
-> 安装vue-router，用于路由管理
-
-### 8. pinia
-
-> 安装pinia，用于状态管理
+> 1.4 引入normalize.css 重置浏览器默认样式

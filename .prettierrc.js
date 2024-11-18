@@ -7,7 +7,7 @@ export default {
   trailingComma: 'all', //拖尾逗号
   singleQuote: true, //使用单引号
   semi: false, //要不要分号
-  printWidth: 100, //打印多少个字符换行
+  printWidth: 80, //打印多少个字符换行
   arrowParens: 'avoid', //箭头函数要不要见括号 avoid always
   endOfLine: 'lf', //换行符的格式 Unix lf  Windows crlf  Auto
   experimentalTernaries: true, //允许在三元表达式中使用换行符
