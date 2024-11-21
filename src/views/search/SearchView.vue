@@ -2,7 +2,7 @@
 import OpSearch from '@/components/OpSearch.vue'
 import { computed, ref, watch } from 'vue'
 import { useToggle } from '@/use/useToggle'
-import { fetchSearchData } from '@/api/index'
+import { fetchSearchData } from '@/api/search'
 import type { ISearchResult } from '@/types/home.d.ts'
 interface IEmits {
   (e: 'cancel'): void

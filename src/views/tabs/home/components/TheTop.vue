@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import OpSearch from '@/components/OpSearch.vue'
-
+import type { ISearchRecomment } from '@/types'
 interface IEmits {
   (e: 'searchClick'): void
 }
+interface IProps {
+  recomments: ISearchRecomment[]
+}
+defineProps<IProps>()
 const emits = defineEmits<IEmits>()
 </script>
 
@@ -27,6 +31,11 @@ const emits = defineEmits<IEmits>()
         </template>
       </OpSearch>
     </VanSticky>
+    <div class="search-recommend">
+      <div v-for="v in recomments" :key="v.value" class="tag">
+        {{ v.label }}
+      </div>
+    </div>
   </div>
 </template>
 

@@ -27,7 +27,7 @@ import {
 } from 'vant'
 // 2. 引入vant样式
 import 'vant/lib/index.css'
-
+import './assets/common.scss'
 const app = createApp(App)
 app.use(router)
 

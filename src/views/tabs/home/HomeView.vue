@@ -1,9 +1,24 @@
 <script setup lang="ts">
+import type { ICountdown, IHomeInfo } from '@/types'
 import TheTop from './components/TheTop.vue'
 import SearchView from '@/views/search/SearchView.vue'
 import { useToggle } from '@/use/useToggle'
-
+import { fetchHomePageData } from '@/api/home.ts'
+import { useAsync } from '@/use/useAsync'
+import OpLoadingView from '@/components/OpLoadingView.vue'
+import TheTransformer from './components/TheTransformer.vue'
+import ScrollBar from './components/ScrollBar.vue'
+import CountDown from './components/CountDown.vue'
 const [isSearchViewShown, toggleSearchView] = useToggle(false)
+
+const { data, pending } = useAsync(fetchHomePageData, {
+  banner: [],
+  searchRecomments: [],
+  transformer: [],
+  scrollBarInfoList: [],
+  countdown: {} as ICountdown,
+  activities: [],
+} as IHomeInfo)
 </script>
 
 <template>
@@ -15,7 +30,20 @@ const [isSearchViewShown, toggleSearchView] = useToggle(false)
       ></SearchView>
     </transition>
     <div v-show="!isSearchViewShown">
-      <TheTop @searchClick="toggleSearchView" />
+      <TheTop
+        :recomments="data.searchRecomments"
+        @searchClick="toggleSearchView"
+      />
+      <OpLoadingView :loading="pending" type="skeleton">
+        <div class="home-page__banner">
+          <img v-for="v in data.banner" :key="v.imgUrl" :src="v.imgUrl" />
+        </div>
+        <TheTransformer :data="data.transformer" />
+        <ScrollBar :data="data.scrollBarInfoList" />
+        <div class="home-page__activity">
+          <CountDown :data="data.countdown" />
+        </div>
+      </OpLoadingView>
     </div>
   </div>
 </template>
@@ -30,7 +58,7 @@ const [isSearchViewShown, toggleSearchView] = useToggle(false)
   opacity: 0;
 }
 .home-page {
-  background: var(--op-gray-bg-color);
+  background: rgb(244, 244, 244);
   padding-bottom: 70px;
 
   &__banner {
